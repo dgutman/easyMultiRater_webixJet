@@ -43,7 +43,7 @@ export function addRaterOverlay(tiles, spxIdsToLabel, raterColor, className) {
   var fillColor = raterColor;
   var spxIntIds = spxIdsToLabel.map(Number);
 
-  console.log(tiles,spxIdsToLabel,raterColor,className)
+  //console.log(tiles,spxIdsToLabel,raterColor,className)
   var overlay = $$("slide_viewer").viewer.svgOverlay();
 
 

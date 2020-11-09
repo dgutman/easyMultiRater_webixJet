@@ -14,7 +14,7 @@ export default class TopView extends JetView{
 			data:[
 				{ value:"Multirater",		 id:"multirater",  icon:"wxi-pencil" },
 				{ value:"Data",		 id:"data",  icon:"wxi-pencil" },
-				{ value:"Dashboard", id:"start", icon:"wxi-columns" }
+				// { value:"Dashboard", id:"start", icon:"wxi-columns" }
 			]
 		};
 

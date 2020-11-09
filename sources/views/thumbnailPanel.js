@@ -25,6 +25,8 @@ export default class multiRaterThumbPanel extends JetView {
           template: "MultiRaterThumbPanel",
           type: "header",
         },
+        
+        
         {
           view: "dataview",
           id: "thumbnailPanel",

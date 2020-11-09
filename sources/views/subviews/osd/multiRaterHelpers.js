@@ -19,10 +19,10 @@ export function createFeatureButtons(featureSetData) {
   $$("curImgFeatureList").reconstruct();
   var cols = [];
 
-  console.log(featureSetData);
+  //console.log(featureSetData);
   //for each feature create a button and bind it to the curImgFeatureList view (form)
   $.each(featureSetData, function (index, feature) {
-    console.log(index, feature);
+    //console.log(index, feature);
     var btn = {
       id: feature.featureName,
       view: "button",
@@ -36,15 +36,14 @@ export function createFeatureButtons(featureSetData) {
       on: {
         onItemClick: function (id) {
           //perhaps a cleaner way to do this.. but this resets the # of spx marked for the current feature
-            console.log(id);
+           // console.log(id);
           $$("raterInfoDataTable").eachRow(function (row) {
             var itm = this.getItem(row);
-            console.log(itm);
+          //  console.log(itm);
             this.updateItem(row, { raterTotalFeaturesSeen: "" });
           });
 
           $(".boundaryClass").css("opacity", 0);
-
           /* Grab the most recent raterData Information so I can use the right color scheme */
           var raterDataDict = {};
           $$("raterInfoDataTable")

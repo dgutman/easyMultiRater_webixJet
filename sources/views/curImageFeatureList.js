@@ -1,5 +1,5 @@
 import { JetView } from "webix-jet";
-import "globals"
+import "globals";
 
 const webix = require("webix");
 const $ = require("jquery");
@@ -23,29 +23,34 @@ export default class curImageFeatureList extends JetView {
     };
 
     const curImageFeatureList = {
-      gravity: 0.3,
-      view: "list",
-      id: "curImageFeatureList",
-      template: "#featureName#",
-      select: true,
-      on: {
-        onItemClick: function (id) {
-          curSelectedFeature = this.getItem(id);
-          $(".boundaryClass").css("opacity", 0);
-          rtrColorId = 0;
-          $(".raterClass").remove(); //remove all the previously marked up raters
-          for (rtr in curSelectedFeature.markupDataForFeature) {
-            // console.log("Rendering data for", rtr)
-            // console.log(curSelectedFeature.markupDataForFeature[rtr]);
-            tileInfo.addRaterOverlay(
-              currentImgTileData,
-              curSelectedFeature.markupDataForFeature[rtr],
-              rtrColorId
-            );
-            rtrColorId++;
-          }
+      rows: [
+        { view: "template", type:"header",template: "Features Present In Image" },
+        {
+          gravity: 0.3,
+          view: "list",
+          id: "curImageFeatureList",
+          template: "#featureName#",
+          select: true,
+          on: {
+            onItemClick: function (id) {
+              curSelectedFeature = this.getItem(id);
+              $(".boundaryClass").css("opacity", 0);
+              rtrColorId = 0;
+              $(".raterClass").remove(); //remove all the previously marked up raters
+              for (rtr in curSelectedFeature.markupDataForFeature) {
+                // console.log("Rendering data for", rtr)
+                // console.log(curSelectedFeature.markupDataForFeature[rtr]);
+                tileInfo.addRaterOverlay(
+                  currentImgTileData,
+                  curSelectedFeature.markupDataForFeature[rtr],
+                  rtrColorId
+                );
+                rtrColorId++;
+              }
+            },
+          },
         },
-      },
+      ],
     };
 
     return {

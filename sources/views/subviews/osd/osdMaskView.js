@@ -87,23 +87,23 @@ webix.protoUI(
           hlprs.createFeatureButtons(featureMetaData);
 
           var currentImgTileDict = {};
-            curImgTileData = selectedItem.svgJson;
-            selectedItem.svgJson.forEach(function (tile, index) {
-              var fillColor = colorPalette[index % 10]; //I want each SVG tile to have a uniqueish color
-              var overlay = $$("slide_viewer").viewer.svgOverlay();
+          curImgTileData = selectedItem.svgJson;
+          selectedItem.svgJson.forEach(function (tile, index) {
+            var fillColor = colorPalette[index % 10]; //I want each SVG tile to have a uniqueish color
+            var overlay = $$("slide_viewer").viewer.svgOverlay();
 
-              var node = d3
-                .select(overlay.node())
-                .append("polygon")
-                .style("fill", fillColor)
-                .attr("points", tile.geometry.coordinates)
-                .attr("class", "boundaryClass")
-                .attr("id", "boundaryLI" + tile.properties.labelindex)
-                .style("opacity", 0.05);
-              /* To Do-- this should be bound to the value I put in the slider control */
-              //.on("mouseover", hlprs.handleMouseOver);
-              currentImgTileDict[tile.properties.labelindex] = tile;
-            });
+            var node = d3
+              .select(overlay.node())
+              .append("polygon")
+              .style("fill", fillColor)
+              .attr("points", tile.geometry.coordinates)
+              .attr("class", "boundaryClass")
+              .attr("id", "boundaryLI" + tile.properties.labelindex)
+              .style("opacity", 0.05);
+            /* To Do-- this should be bound to the value I put in the slider control */
+            //.on("mouseover", hlprs.handleMouseOver);
+            currentImgTileDict[tile.properties.labelindex] = tile;
+          });
         }
         return overlay;
       });
@@ -129,6 +129,10 @@ var applyRaterOpacity = function (opValue) {
 
 var applySpxMaskOpacity = function (opValue) {
   $(".boundaryClass").css("opacity", opValue);
+};
+
+var applySegMaskOpacity = function (opValue) {
+  $(".segMaskClass").css("opacity", opValue);
 };
 
 var raterOpacitySliderLayer = {
@@ -163,12 +167,65 @@ var spxOpacitySlider = {
   },
 };
 
+var segMaskOpacitySlider = {
+  view: "slider",
+  id: "Seg Mask Opacity",
+  label: "Seg Mask Opacity",
+  labelPosition: "top",
+  value: "0.0",
+  step: 0.1,
+  min: 0,
+  max: 1,
+  width: 200,
+  on: {
+    onSliderDrag: applySegMaskOpacity,
+    onChange: applySegMaskOpacity,
+  },
+};
+
+
+var showSegBoundaryButton = {
+  view: "button",
+  id: "showSegBounds",
+  label: "ShowSeg",
+inputWidth: 200,
+  on: {
+      onItemClick: function(id) {
+          console.log(this)
+
+          var selectedItem = $$("thumbnailPanel").getSelectedItem();
+
+          selectedItem.superpixels_in_mask.forEach(function(val, spxId) {
+              if (val == 1 ) {
+                  $("#boundaryLI" + spxId).css('opacity', 0.5);
+                  $("#boundaryLI" + spxId).css('fill', 'red');
+
+                  console.log(val, spxId);
+              }
+                  else if (val>0 && val < 1)
+                          {
+                  $("#boundaryLI" + spxId).css('opacity', 0.4);
+                  $("#boundaryLI" + spxId).css('fill', 'yellow');
+
+                          }
+          })
+
+
+          }
+
+      }
+  }
+
+
+
+
 export default class osdMaskClass extends JetView {
   config() {
     var osdMaskControls = {
       height: 60,
       cols: [
         { view: "template", template: "Mask Opacity Controls" },
+        showSegBoundaryButton, segMaskOpacitySlider,
         raterOpacitySliderLayer, // There is only one layer right now! doh
         spxOpacitySlider,
       ],
