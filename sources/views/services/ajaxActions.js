@@ -38,7 +38,7 @@ class AjaxActions {
   getHostApiUrl() {
   
 //  return webix.storage.local.get("hostAPI"); // TO DO.. move this into constants //
-  return 'http://dermannotator.org:8080/api/v1'
+    return 'http://dermannotator.org:8080/api/v1'
   }
 
   setTokenIntoUrl(token, symbol) {
