@@ -3,6 +3,7 @@ import ajax from "../../services/ajaxActions";
 import * as tileInfo from "./tileHelperFunctions";
 import * as hlprs from "./multiRaterHelpers";
 import { HOST_API, colorPalette } from "globals";
+import state from "../../../models/state";
 
 const OpenSeadragon = require("openseadragon");
 const SVGOverlay = require("svg-overlay");
@@ -87,7 +88,7 @@ webix.protoUI(
           hlprs.createFeatureButtons(featureMetaData);
 
           var currentImgTileDict = {};
-          curImgTileData = selectedItem.svgJson;
+          state.curImgTileData = selectedItem.svgJson;
           selectedItem.svgJson.forEach(function (tile, index) {
             var fillColor = colorPalette[index % 10]; //I want each SVG tile to have a uniqueish color
             var overlay = $$("slide_viewer").viewer.svgOverlay();
@@ -223,8 +224,9 @@ export default class osdMaskClass extends JetView {
   config() {
     var osdMaskControls = {
       height: 60,
+      type: "clean",
       cols: [
-        { view: "template", template: "Mask Opacity Controls" },
+        { view: "template", template: "Mask Opacity Controls", borderless: true },
         showSegBoundaryButton, segMaskOpacitySlider,
         raterOpacitySliderLayer, // There is only one layer right now! doh
         spxOpacitySlider,
