@@ -1,6 +1,7 @@
 import {JetApp, EmptyRouter, HashRouter } from "webix-jet";
 import "regenerator-runtime/runtime"
 import "./styles/app.css";
+import "./utils/pollyfils";
 import state from "./models/state";
 
 export default class MyApp extends JetApp{

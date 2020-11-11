@@ -1,8 +1,8 @@
 import { JetView } from "webix-jet";
-import { localRaterData } from "models/localRaterData";
-import ajax from "./services/ajaxActions";
 import $ from "jquery";
 import { HOST_API } from "globals";
+import state from "models/state";
+import ThumbnailPanelService from "services/thumbnailPanel/thumbnailPanelService";
 
 function changeMainImage(imageData) {
   $(".raterClass").remove();
@@ -21,60 +21,105 @@ export default class multiRaterThumbPanel extends JetView {
     return {
       rows: [
         {
-          view: "template",
-          template: "MultiRaterThumbPanel",
-          type: "header",
+          view: "toolbar",
+          padding: 3,
+          elements: [
+            {
+              view: "icon",
+              tooltip: "Set filters",
+              localId: "toggleFiltersViewButton",
+              icon: "fas fa-sliders-h"
+            },
+            {
+              view: "label",
+              label: "MultiRaterThumbPanel",
+            }
+          ]
         },
-        
         
         {
-          view: "dataview",
-          id: "thumbnailPanel",
-          template:
-            "<div class='webix_strong'>#imageName#<br><img src='#baseImageThumb#' height=120/></div>",
-          type: {
-            height: 120,
-            width: 150,
-          },
+          localId: "multiview",
+          value: "thumbnailPanel",
           width: 150 * 2 + 20,
-          select: true,
-          on: {
-            onItemClick: function (id, e, node) {
-              // console.log(id,e,node);
-              var item = $$("thumbnailPanel").getItem(id);
-              changeMainImage(item);
-              curImageMetaData = item;
-              //currentSelecetdItem = item; //updated curerntly selectee item.. currently in global  namespace
+          cells: [
+            {
+              view: "dataview",
+              id: "thumbnailPanel",
+              template:
+                "<div class='webix_strong'>#imageName#<br><img src='#baseImageThumb#' height=120/></div>",
+              type: {
+                height: 120,
+                width: 150,
+              },
+              select: true,
+              on: {
+                onItemClick(id, e, node) {
+                  // console.log(id,e,node);
+                  var item = $$("thumbnailPanel").getItem(id);
+                  changeMainImage(item);
+                  state.curImageMetaData = item;
+                  //currentSelecetdItem = item; //updated curerntly selectee item.. currently in global  namespace
+                },
+              },
             },
-          },
-        },
-      ],
+            {
+              id: "thumbnailFilterPanel",
+              rows: [
+                {
+                  template: "<div class='webix_strong'>Filters:</div>",
+                  autoheight: true,
+                  borderless: true
+                },
+                {
+                  view: "tree",
+                  localId: "filtersTree",
+                  borderless: true,
+                  type: "lineTree",
+                  scroll: "auto",
+                  css: "dataview-filters-tree",
+                  template: (obj, common) => {
+                    const tree = this.filtersTree;
+                    const checkboxState = tree.isSelected(obj.id) ? "checked fas fa-check-square" : "unchecked far fa-square";
+                    return `<span onmousedown='return false' onselectstart='return false'>${common.icon(obj, common)} <i class='tree-checkbox ${checkboxState}'></i> <span>${obj.name}</span></span>`;
+                  }
+                },
+                {
+                  view: "button",
+                  localId: "applyFilters",
+                  value: "Apply filters"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     };
   }
   init(view) {
-    //For now need to convert the localRateData into a flatter structure for visualization
-    var imageData = []; //need to flatten the localRaterData for now
-    // Object.keys(localRaterData).map(function (key) {
-    // //   imageData.push(localRaterData[key]);
-    // //  console.log(localRaterData[key])
-    // });
+   this._thumbnailPanelService = new ThumbnailPanelService(view);
+  }
 
-    /* This fires after the view for the thumbnail is created and grabs the metadata from
-    the DSA server */
-    ajax.getFolder("folder", "5d02992b704d454c50973beb").then((d) => {
-      // console.log(d)
-      d.forEach((i) => {
-        i.meta.baseImageThumb =
-          HOST_API + "/item/" + i.meta.mainImage._id + "/tiles/thumbnail";
-        i.meta.baseImageFile =
-          HOST_API + "/item/" + i.meta.mainImage._id + "/tiles/dzi.dzi";
-        imageData.push(i.meta);
-      });
-      console.log(imageData);
+  get dataview() {
+    return $$("thumbnailPanel");
+  }
 
-      $$("thumbnailPanel").parse(imageData);
-    });
+  get filtersTree() {
+    return this.$$("filtersTree");
+  }
 
-   
+  get filtersPanel() {
+    return this.$$("thumbnailFilterPanel");
+  }
+
+  get toggleFilters() {
+    return this.$$("toggleFiltersViewButton");
+  }
+
+  get multiview() {
+    return this.$$("multiview");
+  }
+
+  get applyFiltersBtn() {
+    return this.$$("applyFilters");
   }
 }

@@ -138,3 +138,19 @@ html, body{
 .multi_rater_boundary{
   color: red;
 }
+
+
+
+.dataview-filters-tree .webix_scroll_cont {
+  min-width: 100%;
+  width: max-content !important;
+}
+
+.dataview-filters-tree .webix_selected, .dataview-filters-tree .webix_selected span {
+  background: transparent !important;
+  color: #666666;
+}
+
+.dataview-filters-tree .webix_selected .tree-checkbox {
+  color: #3498db;
+}
