@@ -1,5 +1,5 @@
 import { JetView } from "webix-jet";
-import ajax from "../../services/ajaxActions";
+import ajax from "../../../services/ajaxActions";
 import * as tileInfo from "./tileHelperFunctions";
 import * as hlprs from "./multiRaterHelpers";
 import { HOST_API, colorPalette } from "globals";
@@ -198,17 +198,15 @@ inputWidth: 200,
 
           selectedItem.superpixels_in_mask.forEach(function(val, spxId) {
               if (val == 1 ) {
-                  $("#boundaryLI" + spxId).css('opacity', 0.5);
-                  $("#boundaryLI" + spxId).css('fill', 'red');
+                $("#boundaryLI" + spxId).css('opacity', 0.5);
+                $("#boundaryLI" + spxId).css('fill', 'red');
 
-                  console.log(val, spxId);
+                console.log(val, spxId);
               }
-                  else if (val>0 && val < 1)
-                          {
-                  $("#boundaryLI" + spxId).css('opacity', 0.4);
-                  $("#boundaryLI" + spxId).css('fill', 'yellow');
-
-                          }
+              else if (val>0 && val < 1) {
+                $("#boundaryLI" + spxId).css('opacity', 0.4);
+                $("#boundaryLI" + spxId).css('fill', 'yellow');
+              }
           })
 
 

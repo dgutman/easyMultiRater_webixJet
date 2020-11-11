@@ -1,5 +1,5 @@
 import authService from "./authentication";
-import constants from "../../constants";
+import constants from "../constants";
 
 function parseError(xhr) {
   let message;

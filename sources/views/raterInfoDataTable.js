@@ -10,26 +10,28 @@ export default class raterInfoDataTable extends JetView {
 
     var raterInfoDataTable = {
       view: "datatable",
-      gravity: 0.2,
       id: "raterInfoDataTable",
-      height: 150, //TO FIX.. this shuold not be fixed height
+      yCount: 6,
+      // height: 150, //TO FIX.. this shuold not be fixed height
       columns: [
-        { id: "raterName", header: "Rater Name", width: 180 },
+        { id: "raterName", header: "Rater Name", width: 180, fillspace: 2 },
         {
           id: "raterColor",
           editor: "color",
           template: cSt,
           header: "Rater Color",
           width: 120,
+          fillspace: 1
         },
         {
           id: "raterTotalFeaturesSeen",
           header: "raterTotalFeaturesSeen",
           width: 200,
         },
-        { id: "spxMarkedForCurrentFeature", header: "SpxsForSelectedFeature" },
+        { id: "spxMarkedForCurrentFeature", header: "SpxsForSelectedFeature", width: 180 },
         {
           id: "showRaterMarkupCheckbox",
+          width: 180,
           header: "DisplayMarkup",
           checkValue: "on",
           uncheckValue: "off",
@@ -39,7 +41,7 @@ export default class raterInfoDataTable extends JetView {
       ],
       editable: true,
      // autoheight: true,
-      autowidth: true,
+      // autowidth: true,
       gravity: 1,
       tooltip: true,
       on: {
@@ -64,9 +66,6 @@ export default class raterInfoDataTable extends JetView {
       },
     };
 
-    return {
-      name: "raterInfoDataTable",
-      rows: [raterInfoDataTable],
-    };
+    return raterInfoDataTable;
   }
 }
