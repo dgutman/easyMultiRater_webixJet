@@ -1,5 +1,5 @@
-import authService from "../authentication";
-import ajax from "../ajaxActions";
+import authService from "services/authentication";
+import ajax from "services/ajaxActions";
 
 class HeaderService {
 	constructor(view, loginPanel, logoutPanel) {

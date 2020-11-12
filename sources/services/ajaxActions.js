@@ -1,5 +1,5 @@
 import authService from "./authentication";
-import constants from "../../constants";
+import constants from "../constants";
 
 function parseError(xhr) {
   let message;
@@ -38,7 +38,7 @@ class AjaxActions {
   getHostApiUrl() {
   
 //  return webix.storage.local.get("hostAPI"); // TO DO.. move this into constants //
-  return 'http://dermannotator.org:8080/api/v1'
+    return 'http://dermannotator.org:8080/api/v1'
   }
 
   setTokenIntoUrl(token, symbol) {

@@ -59,6 +59,8 @@ module.exports = function (env) {
       extensions: [".js"],
       modules: ["./sources", "node_modules"],
       alias: {
+        "services": path.resolve(__dirname, "sources/services"),
+        "models": path.resolve(__dirname, "sources/models"),
         "jet-views": path.resolve(__dirname, "sources/views"),
         "jet-locales": path.resolve(__dirname, "sources/locales"),
       },

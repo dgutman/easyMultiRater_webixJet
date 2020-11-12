@@ -1,4 +1,4 @@
-import state from "../../models/state";
+import state from "../models/state";
 import ajax from "./ajaxActions";
 
 function login(params, afterLoginPage) {

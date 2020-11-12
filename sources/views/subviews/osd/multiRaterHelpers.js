@@ -1,9 +1,8 @@
-const $ = require("jquery");
-const d3 = require("d3");
+import d3 from "d3";
+import $ from "jquery";
+import state from "../../../models/state";
 
 import * as tileInfo from "./tileHelperFunctions";
-
-console.log(curImageMetaData)
 
 export function handleMouseOver(d, i) {
   // self.deselectCell(d3.select(overlay.node()).selectAll('.boundaryClass'));
@@ -59,8 +58,8 @@ export function createFeatureButtons(featureSetData) {
           $(".raterClass").remove(); //remove all the previously marked up rater
           
           var rtr = {};
-          for (rtr in curImageMetaData.markupData[id]) {
-            $.each(curImageMetaData.markupData[id][rtr], function (idx, spx) {
+          for (rtr in state.curImageMetaData.markupData[id]) {
+            $.each(state.curImageMetaData.markupData[id][rtr], function (idx, spx) {
               //     console.log(spx, idx);
               if (!spxMarkupCountDict.hasOwnProperty(spx)) {
                 spxMarkupCountDict[spx] = 1;
@@ -73,12 +72,12 @@ export function createFeatureButtons(featureSetData) {
         //    update the data table to show the count for the currently displayed feature
             $$("raterInfoDataTable").updateItem(raterDataDict[rtr].id, {
               raterTotalFeaturesSeen:
-                curImageMetaData.markupData[id][rtr].length,
+              state.curImageMetaData.markupData[id][rtr].length,
             });
 
             tileInfo.addRaterOverlay(
-              curImgTileData,
-              curImageMetaData.markupData[id][rtr],
+              state.curImgTileData,
+              state.curImageMetaData.markupData[id][rtr],
               raterDataDict[rtr]["raterColor"],
               rtr
             );
@@ -102,26 +101,26 @@ export function createFeatureButtons(featureSetData) {
           });
           //add two clasess one identifying the specific layer name and a second that lets me know it's a multiRater composite
           tileInfo.addRaterOverlay(
-            curImgTileData,
+            state.curImgTileData,
             moreThan2,
             "#ffff00",
             "moreThan1 multiRater"
           );
           tileInfo.addRaterOverlay(
-            curImgTileData,
+            state.curImgTileData,
             moreThan3,
             "#ff0000",
             "moreThan2 multiRater"
           );
           tileInfo.addRaterOverlay(
-            curImgTileData,
+            state.curImgTileData,
             moreThan2,
             "#ffff00",
             "moreThan3 multiRater"
           );
 
           $$("raterInfoDataTable").updateItem(raterDataDict[rtr].id, {
-            raterTotalFeaturesSeen: curImageMetaData.markupData[id][rtr].length,
+            raterTotalFeaturesSeen: state.curImageMetaData.markupData[id][rtr].length,
           });
 
           //now that I have added all of the layers, let's quickly make sure everything is toggled on / off appropriately

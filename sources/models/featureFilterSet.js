@@ -1,7 +1,7 @@
 // These are the feature filters and tree hierarchy we want to use for the thumbnail table */
 //REMEMBER The Full Feature name is ROOT: <LEAF>  I removed the duplicative part
 
-const featureFilters = {
+export const featureFilters = {
   Dots: ["Regular", "Irregular"],
   "Globules / Clods": [
     "Cobblestone Pattern",
