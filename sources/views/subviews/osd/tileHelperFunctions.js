@@ -31,7 +31,7 @@ export function addOverlay(tiles) {
       .append("polygon")
       .attr("points", tile.coords)
       .style("fill", "blue")
-      .attr("opacity", 0.2)
+      .attr("opacity", 0.0)
       .attr("class", "boundaryClass")
       .attr("id", "boundaryLI" + tile.index)
       .attr("stroke", "blue")
@@ -47,13 +47,18 @@ export function addRaterOverlay(tiles, spxIdsToLabel, raterColor, className) {
   var overlay = $$("slide_viewer").viewer.svgOverlay();
 
 
+  var mrOpacity = $$("multirater_opacity_slider").getValue()
+  
+  // console.log(spxIntIds)
+  // console.log(tiles);
+
   $.each(tiles, function (index, tile) {
     if (spxIntIds.includes(parseInt(tile.properties.labelindex))) {
       d3.select(overlay.node())
         .append("polygon")
         .attr("points", tile.geometry.coordinates)
         .style("fill", fillColor)
-        .attr("opacity", 0.7)
+        .attr("opacity", mrOpacity)
         .attr("class", "raterClass" + " " + className) //add multiple classes in a single call
         .attr("id", "raterLI" + tile.properties.labelindex)
         .attr("stroke", "blue")

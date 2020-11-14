@@ -53,15 +53,17 @@ webix.protoUI(
               },
               {
                 raterName: "moreThan2",
-                raterColor: "#ff0000",
+                raterColor: "#ff700e",
                 showRaterMarkupCheckbox: "on",
               },
               {
                 raterName: "moreThan3",
-                raterColor: "#ff700e",
+                raterColor: "#ff0000",
                 showRaterMarkupCheckbox: "on",
               },
             ];
+            /* PROBLEM NEED TO FIX --- This colors may not actually be synced to the multiraterhelper panel */
+
 
             selectedItem.ratersForCurrentImage.forEach(function (rtr, idx) {
               var fillColor = colorPalette[idx % 10]; //I want each SVG tile to have a uniqueish color
@@ -88,22 +90,39 @@ webix.protoUI(
           hlprs.createFeatureButtons(featureMetaData);
 
           var currentImgTileDict = {};
-          state.curImgTileData = selectedItem.svgJson;
-          selectedItem.svgJson.forEach(function (tile, index) {
-            var fillColor = colorPalette[index % 10]; //I want each SVG tile to have a uniqueish color
-            var overlay = $$("slide_viewer").viewer.svgOverlay();
+          
 
-            var node = d3
-              .select(overlay.node())
-              .append("polygon")
-              .style("fill", fillColor)
-              .attr("points", tile.geometry.coordinates)
-              .attr("class", "boundaryClass")
-              .attr("id", "boundaryLI" + tile.properties.labelindex)
-              .style("opacity", 0.05);
-            /* To Do-- this should be bound to the value I put in the slider control */
-            //.on("mouseover", hlprs.handleMouseOver);
-            currentImgTileDict[tile.properties.labelindex] = tile;
+          /*This is no longer Accurate--- it was too slow to store the SVG at the folder level... I am pushing this data
+          to an item within this folder..
+          
+              FullMetaDataItem
+          */
+         console.log(selectedItem.FullMetaDataItem)
+         console.log("Dumping FullMetaDateItem")
+
+          ajax.getItem(selectedItem.FullMetaDataItem).then((d) => {
+            state.curImgTileData = d.meta.svgJson;
+            console.log(d)
+            
+            d.meta.svgJson.forEach(function (tile, index) {
+              //console.log(tile)
+              var strokeColor = colorPalette[index % 10]; //I want each SVG tile to have a uniqueish color
+              var overlay = $$("slide_viewer").viewer.svgOverlay();
+              //fillColor became stroke color
+              var node = d3
+                .select(overlay.node())
+                .append("polygon")
+                .style("fill","none") 
+                .attr("stroke",strokeColor)
+                .attr('stroke-width',1)
+                .attr("points", tile.geometry.coordinates)
+                .attr("class", "boundaryClass")
+                .attr("id", "boundaryLI" + tile.properties.labelindex)
+                .style("opacity", 0.05);
+              /* To Do-- this should be bound to the value I put in the slider control */
+              //.on("mouseover", hlprs.handleMouseOver);
+              currentImgTileDict[tile.properties.labelindex] = tile;
+            });
           });
         }
         return overlay;
@@ -138,10 +157,10 @@ var applySegMaskOpacity = function (opValue) {
 
 var raterOpacitySliderLayer = {
   view: "slider",
-  id: "opacity_slider_1",
+  id: "multirater_opacity_slider",
   label: "MultiRater Opacity",
   labelPosition: "top",
-  value: "0.0",
+  value: 0.5,
   step: 0.1,
   min: 0,
   max: 1,
@@ -184,39 +203,31 @@ var segMaskOpacitySlider = {
   },
 };
 
-
 var showSegBoundaryButton = {
   view: "button",
   id: "showSegBounds",
   label: "ShowSeg",
-inputWidth: 200,
+  inputWidth: 200,
   on: {
-      onItemClick: function(id) {
-          console.log(this)
+    onItemClick: function (id) {
+      console.log(this);
 
-          var selectedItem = $$("thumbnailPanel").getSelectedItem();
+      var selectedItem = $$("thumbnailPanel").getSelectedItem();
 
-          selectedItem.superpixels_in_mask.forEach(function(val, spxId) {
-              if (val == 1 ) {
-                $("#boundaryLI" + spxId).css('opacity', 0.5);
-                $("#boundaryLI" + spxId).css('fill', 'red');
+      selectedItem.superpixels_in_mask.forEach(function (val, spxId) {
+        if (val == 1) {
+          $("#boundaryLI" + spxId).css("opacity", 0.5);
+          $("#boundaryLI" + spxId).css("fill", "red");
 
-                console.log(val, spxId);
-              }
-              else if (val>0 && val < 1) {
-                $("#boundaryLI" + spxId).css('opacity', 0.4);
-                $("#boundaryLI" + spxId).css('fill', 'yellow');
-              }
-          })
-
-
-          }
-
-      }
-  }
-
-
-
+          console.log(val, spxId);
+        } else if (val > 0 && val < 1) {
+          $("#boundaryLI" + spxId).css("opacity", 0.4);
+          $("#boundaryLI" + spxId).css("fill", "yellow");
+        }
+      });
+    },
+  },
+};
 
 export default class osdMaskClass extends JetView {
   config() {
@@ -224,8 +235,13 @@ export default class osdMaskClass extends JetView {
       height: 60,
       type: "clean",
       cols: [
-        { view: "template", template: "Mask Opacity Controls", borderless: true },
-        showSegBoundaryButton, segMaskOpacitySlider,
+        {
+          view: "template",
+          template: "Mask Opacity Controls",
+          borderless: true,
+        },
+        showSegBoundaryButton,
+        segMaskOpacitySlider,
         raterOpacitySliderLayer, // There is only one layer right now! doh
         spxOpacitySlider,
       ],

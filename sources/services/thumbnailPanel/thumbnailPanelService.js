@@ -34,7 +34,7 @@ export default class ThumbnailPanelService {
 		/* This fires after the view for the thumbnail is created and grabs the metadata from
 		the DSA server */
 		view.showProgress();
-		ajax.getFolder("folder", "5d02992b704d454c50973beb")
+		ajax.getFolder("folder", constants.STUDY_FOLDER)
 		  .then((d) => {
 			// console.log(d)
 			d.forEach((i) => {

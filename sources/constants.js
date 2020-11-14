@@ -27,5 +27,10 @@ export default {
 	MOUSE_RIGHT_SINGLE_CLICK: "mouseRightSingle",
 	MOUSE_LEFT_DOUBLE_CLICK: "mouseLeftDouble",
 
-	HOST_API_URL : "http://dermannotator.org:8080/api/v1"
+	HOST_API_URL : "http://dermannotator.org:8080/api/v1",
+	//STUDY_FOLDER: "5fad9f93887370bb7c8b9b98" //## TJHIS ONE WORKS
+	STUDY_FOLDER: "5fac5180887370bb7c8b8a11"
+	//STUDY_FOLDER: "5d02992b704d454c50973beb" //" //New Data Set Folder ### THIS ONE STILL SEEMS TO WORK.. SO WHAT DID I BREAK!!
+	// STUDY_FOLDER : "5d02992b704d454c50973beb"
 };
+
