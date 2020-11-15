@@ -38,12 +38,13 @@ export default class curImageFeatureList extends JetView {
               rtrColorId = 0;
               $(".raterClass").remove(); //remove all the previously marked up raters
               for (rtr in curSelectedFeature.markupDataForFeature) {
-                // console.log("Rendering data for", rtr)
-                // console.log(curSelectedFeature.markupDataForFeature[rtr]);
+                 console.log("Rendering data for", rtr)
+                 console.log(curSelectedFeature.markupDataForFeature[rtr]);
                 tileInfo.addRaterOverlay(
                   currentImgTileData,
                   curSelectedFeature.markupDataForFeature[rtr],
-                  rtrColorId
+                  rtrColorId,
+                  "UserCXLH"
                 );
                 rtrColorId++;
               }

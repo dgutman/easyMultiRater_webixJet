@@ -34,7 +34,7 @@ webix.protoUI(
 
         if (selectedItem) {
           //make sure this only fires if theres actually a selected item... need help with this logic as well..
-          console.log(selectedItem.imageName);
+          //console.log(selectedItem.imageName);
           var featureMetaData = [];
           selectedItem.featuresObservedForImage.forEach(function (k) {
             featureMetaData.push({
@@ -48,16 +48,19 @@ webix.protoUI(
             var curImageRaterDataList = [
               {
                 raterName: "moreThan1",
+                raterClassName: "moreThan1",
                 raterColor: "#ffff00",
                 showRaterMarkupCheckbox: "on",
               },
               {
                 raterName: "moreThan2",
+                raterClassName:"moreThan2",
                 raterColor: "#ff700e",
                 showRaterMarkupCheckbox: "on",
               },
               {
                 raterName: "moreThan3",
+                raterClassName: "moreThan3",
                 raterColor: "#ff0000",
                 showRaterMarkupCheckbox: "on",
               },
@@ -69,12 +72,14 @@ webix.protoUI(
               var fillColor = colorPalette[idx % 10]; //I want each SVG tile to have a uniqueish color
               curImageRaterDataList.push({
                 raterName: rtr,
+                raterClassName: rtr.replace(/\s/g,''),
                 raterColor: fillColor,
                 showRaterMarkupCheckbox: "off",
               });
             });
-            $$("raterInfoDataTable").clearAll();
-            $$("raterInfoDataTable").parse(curImageRaterDataList);
+            
+            
+            
             //            $$("curImageFeatureList").clearAll();
 
             /* Going to restructure this a little bit to add some color... */
@@ -85,8 +90,13 @@ webix.protoUI(
                 markupDataForFeature: selectedItem.markupData[k],
               });
             });
-          });
 
+            $$("raterInfoDataTable").clearAll();
+            //console.log(curImageRaterDataList);
+            $$("raterInfoDataTable").parse(curImageRaterDataList);
+
+          });
+          
           hlprs.createFeatureButtons(featureMetaData);
 
           var currentImgTileDict = {};
@@ -97,8 +107,8 @@ webix.protoUI(
           
               FullMetaDataItem
           */
-         console.log(selectedItem.FullMetaDataItem)
-         console.log("Dumping FullMetaDateItem")
+        //  console.log(selectedItem.FullMetaDataItem)
+        //  console.log("Dumping FullMetaDateItem")
 
           ajax.getItem(selectedItem.FullMetaDataItem).then((d) => {
             state.curImgTileData = d.meta.svgJson;
