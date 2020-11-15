@@ -35,28 +35,28 @@ export function createFeatureButtons(featureSetData) {
       on: {
         onItemClick: function (id) {
           //perhaps a cleaner way to do this.. but this resets the # of spx marked for the current feature
-           console.log(id,'was clicked');
+          $(".boundaryClass").css("opacity", 0);
+          $(".raterClass").remove(); //remove all the previously marked up rater
+          // Set the boundary class opacity to 0... should also update the SpxMaskOpacity.
+          //Sergey--- what's the cleanest way to bind the spxMask Opacity to this function
+          //so I only needto update this in one spot
+
           $$("raterInfoDataTable").eachRow(function (row) {
             var itm = this.getItem(row);
             this.updateItem(row, { raterTotalFeaturesSeen: "" });
           });
 
-          $(".boundaryClass").css("opacity", 0);
           /* Grab the most recent raterData Information so I can use the right color scheme */
           var raterDataDict = {};
           $$("raterInfoDataTable")
             .serialize()
-            .forEach(function (rtrData) {
+            .forEach((rtrData) => {
               raterDataDict[rtrData.raterName] = rtrData;
             });
 
-
-
           var rtrColorId = 0;
           //While adding the raters, create the compsite version as well
-          console.log(state)
           var spxMarkupCountDict = new Object();
-          $(".raterClass").remove(); //remove all the previously marked up rater
 
           var rtr = {};
           for (rtr in state.curImageMetaData.markupData[id]) {
@@ -72,7 +72,7 @@ export function createFeatureButtons(featureSetData) {
               }
             });
 
-            console.log(rtr)
+            console.log(rtr);
             console.log(raterDataDict);
             //    update the data table to show the count for the currently displayed feature
             $$("raterInfoDataTable").updateItem(raterDataDict[rtr].id, {
@@ -130,16 +130,20 @@ export function createFeatureButtons(featureSetData) {
               state.curImageMetaData.markupData[id][rtr].length,
           });
 
+          console.log(raterDataDict);
+
           //now that I have added all of the layers, let's quickly make sure everything is toggled on / off appropriately
           $.each(raterDataDict, function (rtrName, raterData) {
             //Get the opacity from thne multiraterOpacity..
             var mrOpacity = $$("multirater_opacity_slider").getValue();
 
-            if (raterData.showRaterMarkupCheckbox == "on") {
-              $("." + rtrName).css("opacity", mrOpacity);
-            } else {
-              $("." + rtrName).css("opacity", 0);
-            }
+            var raterOpacity =
+              raterData.showRaterMarkupCheckbox == "on" ? mrOpacity : 0;
+            $("." + rtrName).css("opacity", raterOpacity);
+            // , mrOpacity);
+            // } else {
+            //   $("." + rtrName).css("opacity", 0);
+            // }
           });
         },
       },
@@ -147,7 +151,7 @@ export function createFeatureButtons(featureSetData) {
 
     cols.push(btn);
     //                we want to create 3 columns (a row with 3 buttons)
-    if ((index + 1) % 3 == 0 || index == featureSetData.length - 1) {
+    if ((index + 1) % 4 == 0 || index == featureSetData.length - 1) {
       $$("curImgFeatureList").addView({ cols: cols });
       cols = [];
     }

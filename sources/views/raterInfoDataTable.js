@@ -11,24 +11,27 @@ export default class raterInfoDataTable extends JetView {
     var raterInfoDataTable = {
       view: "datatable",
       id: "raterInfoDataTable",
-      yCount: 6,
+      yCount: 7,
       // height: 150, //TO FIX.. this shuold not be fixed height
       columns: [
-        { id: "raterName", header: "Rater Name", width: 180, fillspace: 2 },
+        { id: "raterName", header: "Rater Name", width: 50 },
         {
           id: "raterColor",
           editor: "color",
           template: cSt,
-          header: "Rater Color",
-          width: 120,
-          fillspace: 1
+          header: "Color",
+          width: 50,
         },
         {
           id: "raterTotalFeaturesSeen",
           header: "raterTotalFeaturesSeen",
-          width: 200,
+          width: 100,
         },
-        { id: "spxMarkedForCurrentFeature", header: "SpxsForSelectedFeature", width: 180 },
+        {
+          id: "spxMarkedForCurrentFeature",
+          header: "SpxsForSelectedFeature",
+          width: 180,
+        },
         {
           id: "showRaterMarkupCheckbox",
           width: 180,
@@ -40,8 +43,6 @@ export default class raterInfoDataTable extends JetView {
         },
       ],
       editable: true,
-     // autoheight: true,
-      // autowidth: true,
       gravity: 1,
       tooltip: true,
       on: {
@@ -54,8 +55,8 @@ export default class raterInfoDataTable extends JetView {
           }
         },
         onAfterEditStop: function (state, editor) {
-        //   console.log(state);
-        //   console.log(editor);
+          //   console.log(state);
+          //   console.log(editor);
           var rowInfo = this.getItem(editor.row);
           console.log(rowInfo);
           if (editor.column == "raterColor" && state.value != state.old) {
@@ -65,7 +66,6 @@ export default class raterInfoDataTable extends JetView {
         },
       },
     };
-
     return raterInfoDataTable;
   }
 }

@@ -9,7 +9,7 @@ export default {
   cols: [
     multiRaterThumbPanel,
     {
-      cols: [osdMaskView, { rows: [raterInfoDataTable, curImageFeatureList] }],
+      cols: [osdMaskView, {view:"resizer"},{ rows: [raterInfoDataTable, curImageFeatureList] }],
     },
   ],
 };
