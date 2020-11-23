@@ -77,8 +77,10 @@ webix.protoUI(
                 showRaterMarkupCheckbox: "off",
               });
             });
+           
             
-            
+            //AAAH so this is firing when the item is loaded, not when the feature is selected... hence it makes no sense! 
+           // tileInfo.generateRaterAgreements("",selectedItem)
             
             //            $$("curImageFeatureList").clearAll();
 

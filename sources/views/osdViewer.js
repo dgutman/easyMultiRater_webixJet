@@ -16,31 +16,6 @@ var duomo = {
 };
 
 
-
-
-
-
-
-
-// function areAllFullyLoaded() {
-//   var tiledImage;
-//   var count = viewer.world.getItemCount();
-//   for (var i = 0; i < count; i++) {
-//     tiledImage = viewer.world.getItemAt(i);
-//     if (!tiledImage.getFullyLoaded()) {
-//       return false;
-//     }
-//   }
-//   return true;
-// }
-
-// var isFullyLoaded = false;
-
-
-
-
-
-
 webix.protoUI(
   {
     name: "osdViewer", //give it some name you like
@@ -76,7 +51,7 @@ webix.protoUI(
       })});
     },
       statusMessage: function () {
-      webix.message("I fired the scalebar as well");
+   //   webix.message("I fired the scalebar as well");
     },
   },
   webix.ui.view
@@ -94,15 +69,12 @@ export default class osdSVGClass extends JetView {
             view: "template",
             template: "HI DAVE",
           },
-          {
-            view: "template",
-            template: "MORE  DAVE",
-          },
-          {
-            view: "template",
-            id: "main_osd",
-            template: "HI",
-          },
+         
+          // {
+          //   view: "template",
+          //   id: "main_osd",
+          //   template: "HI",
+          // },
         ],
       },
     };
@@ -113,82 +85,3 @@ export default class osdSVGClass extends JetView {
   }
 
 }
-
-//   var applyOpacity = function(opValue) {
-//     console.log(opValue);
-//     console.log(this);
-
-//    var  slider_id = this.config.id;
-//    var layerId = slider_id.substring(15);//all sliderrs start with opacity_slider_
-//     console.log(slider_id,layerId);
-
-// var toplayer=$$("slide_viewer").viewer.world.getItemAt(layerId)
-// toplayer.setOpacity(opValue);
-//     webix.message("Change")
-
-//   }
-
-//    var opacitySliderLayer1 = {
-//                 view: "slider",
-//                 id: "opacity_slider_1",
-//                 label: "Layer1 Opacity",
-//                 labelPosition: "top",
-//                 value: "0.0",
-//                 step: 0.5,
-//                 min: 0,
-//                 max: 1,
-//                 width: 200,
-
-//                 on: {
-//                     "onSliderDrag": applyOpacity,
-//                     "onChange": applyOpacity
-//                 }
-//             };
-
-// var opacitySliderLayer0 = {
-//                 view: "slider",
-//                 id: "opacity_slider_0",
-//                 label: "Layer 0 Opacity",
-//                 labelPosition: "top",
-//                 value: "0.0",
-//                 step: 0.5,
-//                 min: 0,
-//                 max: 1,
-//                 width: 200,
-
-//                 on: {
-//                     "onSliderDrag": applyOpacity,
-//                     "onChange": applyOpacity
-//                 }
-//             };
-
-// export default class osdMaskClass extends JetView {
-//   config() {
-
-//     var osdMaskControls = {
-//       height: 50,
-
-//       cols: [
-//       { view: "template", template: "Mask Opacity Controls" },
-//       opacitySliderLayer1, opacitySliderLayer0
-//       ]
-
-//     }
-
-//     return {
-//       name: "osdMaskClass",
-//       rows: [
-//         osdMaskControls,
-
-//         { view: "osdViewer", id: "slide_viewer" },
-//         { gravity: 0.25, cols: [
-//             { view: "osdViewer", id: "slide_viewer_two"},
-//             { gravity: 0.25, view: "osdViewer", id: "slide_viewer_three"}
-//                       ]
-
-//           }
-//       ]
-//     };
-//   }
-
-// }

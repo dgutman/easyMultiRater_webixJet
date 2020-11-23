@@ -1,7 +1,6 @@
 import d3 from "d3";
 import $ from "jquery";
 import state from "../../../models/state";
-
 import * as tileInfo from "./tileHelperFunctions";
 
 export function handleMouseOver(d, i) {
@@ -40,8 +39,6 @@ export function createFeatureButtons(featureSetData) {
           // Set the boundary class opacity to 0... should also update the SpxMaskOpacity.
           //Sergey--- what's the cleanest way to bind the spxMask Opacity to this function
           //so I only needto update this in one spot
-
-
           /* To discuss with Konstantinos...*/
 
           $$("raterInfoDataTable").eachRow(function (row) {
@@ -60,7 +57,6 @@ export function createFeatureButtons(featureSetData) {
           
           //While adding the raters, create the compsite version as well
           var spxMarkupCountDict = new Object();
-
           var rtr = {};
           for (rtr in state.curImageMetaData.markupData[id]) {
             $.each(state.curImageMetaData.markupData[id][rtr], function (idx,spx) {
@@ -69,8 +65,6 @@ export function createFeatureButtons(featureSetData) {
                
              });
 
-            //console.log(rtr);
-            //console.log(raterDataDict);
             //    update the data table to show the count for the currently displayed feature
             $$("raterInfoDataTable").updateItem(raterDataDict[rtr].id, {
               raterTotalFeaturesSeen:
@@ -91,37 +85,37 @@ export function createFeatureButtons(featureSetData) {
           var twoRaters = [];
           var threeRaters = [];
           var allRaters = [];
-          $.each(spxMarkupCountDict, function (spxId, raterCount) {
-            if (raterCount > 1) {
-              twoRaters.push(spxId);
-            }
-            if (raterCount > 2) {
-              threeRaters.push(spxId);
-            }
-            if (raterCount > 3) {
-              allRaters.push(spxId);
-            }
-          });
+          // $.each(spxMarkupCountDict, function (spxId, raterCount) {
+          //   if (raterCount > 1) {
+          //     twoRaters.push(spxId);
+          //   }
+          //   if (raterCount > 2) {
+          //     threeRaters.push(spxId);
+          //   }
+          //   if (raterCount > 3) {
+          //     allRaters.push(spxId);
+          //   }
+          // });
           //add two clasess one identifying the specific layer name and a second that lets me know it's a multiRater composite
-          tileInfo.addRaterOverlay(
-            state.curImgTileData,
-            twoRaters,
-            "#ffff00",
-            "twoRaters multiRater raterClass"
-          );
-          tileInfo.addRaterOverlay(
-            state.curImgTileData,
-            threeRaters,
-            "#ff700e",
-            "threeRaters multiRater raterClass"
-          );
+          // tileInfo.addRaterOverlay(
+          //   state.curImgTileData,
+          //   twoRaters,
+          //   "#ffff00",
+          //   "twoRaters multiRater raterClass"
+          // );
+          // tileInfo.addRaterOverlay(
+          //   state.curImgTileData,
+          //   threeRaters,
+          //   "#ff700e",
+          //   "threeRaters multiRater raterClass"
+          // );
 
-          tileInfo.addRaterOverlay(
-            state.curImgTileData,
-            allRaters,
-            "#ff0000",
-            "allRaters multiRater raterClass"
-          );
+          // tileInfo.addRaterOverlay(
+          //   state.curImgTileData,
+          //   allRaters,
+          //   "#ff0000",
+          //   "allRaters multiRater raterClass"
+          // );
 
           $$("raterInfoDataTable").updateItem(raterDataDict[rtr].id, {
             raterTotalFeaturesSeen:
@@ -129,6 +123,9 @@ export function createFeatureButtons(featureSetData) {
           });
 
         // /  console.log(raterDataDict);
+
+        tileInfo.generateRaterAgreements(state.curImgTileData, spxMarkupCountDict );
+
 
           //now that I have added all of the layers, let's quickly make sure everything is toggled on / off appropriately
           $.each(raterDataDict, function (rtrName, raterData) {
@@ -140,10 +137,7 @@ export function createFeatureButtons(featureSetData) {
             var raterOpacity =
               raterData.showRaterMarkupCheckbox == "on" ? mrOpacity : 0;
             $("." + raterData.raterClassName).css("opacity", raterOpacity);
-            // , mrOpacity);
-            // } else {
-            //   $("." + rtrName).css("opacity", 0);
-            // }
+         
           });
         },
       },
